@@ -1,3 +1,5 @@
+.idea
+Pattern.egg-info
 *.pyc
 *.dev*
 *.nja
