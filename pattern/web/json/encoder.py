@@ -346,8 +346,6 @@ def _make_iterencode(markers, _default, _encoder, _indent, _floatstr,
         _use_decimal, _namedtuple_as_object, _tuple_as_array,
         _bigint_as_string, _item_sort_key,
         ## HACK: hand-optimized bytecode; turn globals into locals
-        False=False,
-        True=True,
         ValueError=ValueError,
         str=str,
         Decimal=Decimal,
@@ -358,7 +356,6 @@ def _make_iterencode(markers, _default, _encoder, _indent, _floatstr,
         isinstance=isinstance,
         list=list,
         long=int,
-        str=str,
         tuple=tuple,
     ):
     if _item_sort_key and not isinstance(_item_sort_key, collections.Callable):

@@ -66,14 +66,7 @@ try:
 except:
     SCRIPT = os.getcwd()
 
-try:
-    # Import from pattern/server/cherrypy/cherrypy
-    # Bundled package is "hidden" in a non-package folder,
-    # otherwise it conflicts with site-packages/cherrypy.
-    sys.path.insert(0, os.path.join(MODULE, "cherrypy"))
-    from . import cherrypy
-except:
-    pass
+from .cherrypy import cherrypy as cp
 
 try: import json  # Python 2.6+
 except:

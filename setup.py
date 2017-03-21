@@ -47,8 +47,8 @@ if sys.argv[-1] == "zip":
 # "python setup.py install" will install /pattern in /site-packages.
 
 setup(
-        name="Pattern",
-        version="2.6",
+        name="pattern",
+        version="3.0",
         description="Web mining module for Python.",
         license="BSD",
         author="Tom De Smedt",

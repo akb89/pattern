@@ -19,7 +19,6 @@ import socket, urllib.parse, urllib.request, urllib.parse, urllib.error, urllib.
 import base64
 import html.entities
 import http.client
-import sgmllib
 import http.cookiejar
 import re
 import xml.dom.minidom
@@ -28,7 +27,8 @@ import string
 import io
 import bisect
 import itertools
-import new
+
+from html.parser import HTMLParser as HTMLP
 
 from . import api
 from . import feed
@@ -745,10 +745,7 @@ blocks.update({
     "td": ("", "\t"),
 })
 
-class HTMLParser(sgmllib.SGMLParser):
-
-    def __init__(self):
-        sgmllib.SGMLParser.__init__(self)
+class HTMLParser(HTMLP):
 
     def handle_starttag(self, tag, attrs):
         pass

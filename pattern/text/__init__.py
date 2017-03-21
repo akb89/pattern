@@ -320,7 +320,7 @@ def _read(path, encoding="utf-8", comment=";;;"):
         for i, line in enumerate(f):
             line = line.strip(codecs.BOM_UTF8) if i == 0 and isinstance(line, str) else line
             line = line.strip()
-            line = decode_utf8(line, encoding)
+            line = line.decode("utf-8")
             if not line or (comment and line.startswith(comment)):
                 continue
             yield line

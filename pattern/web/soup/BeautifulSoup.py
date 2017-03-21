@@ -83,12 +83,11 @@ __version__ = "3.2.1"
 __copyright__ = "Copyright (c) 2004-2012 Leonard Richardson"
 __license__ = "New-style BSD"
 
-from sgmllib import SGMLParser, SGMLParseError
+from html.parser import HTMLParser
 import codecs
 import _markupbase
 import types
 import re
-import sgmllib
 import collections
 try:
   from html.entities import name2codepoint
@@ -99,8 +98,10 @@ try:
 except NameError:
     from sets import Set as set
 
+htmlparser = HTMLParser()
+
 #These hacks make Beautiful Soup able to parse XML with namespaces
-sgmllib.tagfind = re.compile('[a-zA-Z][-_.:a-zA-Z0-9]*')
+htmlparser.tagfind = re.compile('[a-zA-Z][-_.:a-zA-Z0-9]*')
 _markupbase._declname_match = re.compile(r'[a-zA-Z][-_.:a-zA-Z0-9]*\s*').match
 
 DEFAULT_OUTPUT_ENCODING = "utf-8"
@@ -1037,7 +1038,7 @@ def buildTagMap(default, *args):
 
 # Now, the parser classes.
 
-class BeautifulStoneSoup(Tag, SGMLParser):
+class BeautifulStoneSoup(Tag, HTMLParser):
 
     """This class contains the basic parser and search code. It defines
     a parser that knows nothing about tag behavior except for the
@@ -1187,7 +1188,7 @@ class BeautifulStoneSoup(Tag, SGMLParser):
                 del(self.markupMassage)
         self.reset()
 
-        SGMLParser.feed(self, markup)
+        HTMLParser.feed(self, markup)
         # Close out any unfinished strings and close all the open tags.
         self.endData()
         while self.currentTag.name != self.ROOT_TAG_NAME:
