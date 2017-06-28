@@ -59,27 +59,27 @@ http://www.cherrypy.org/wiki/CherryPySpec
 
 __version__ = "3.2.4"
 
-from cherrypy._cpcompat import urljoin as _urljoin, urlencode as _urlencode
-from cherrypy._cpcompat import basestring, unicodestr, set
+from ._cpcompat import urljoin as _urljoin, urlencode as _urlencode
+from ._cpcompat import str, unicodestr, set
 
-from cherrypy._cperror import HTTPError, HTTPRedirect, InternalRedirect
-from cherrypy._cperror import NotFound, CherryPyException, TimeoutError
+from ._cperror import HTTPError, HTTPRedirect, InternalRedirect
+from ._cperror import NotFound, CherryPyException, TimeoutError
 
-from cherrypy import _cpdispatch as dispatch
+from . import _cpdispatch as dispatch
 
-from cherrypy import _cptools
+from . import _cptools
 tools = _cptools.default_toolbox
 Tool = _cptools.Tool
 
-from cherrypy import _cprequest
-from cherrypy.lib import httputil as _httputil
+from . import _cprequest
+from .lib import httputil as _httputil
 
-from cherrypy import _cptree
+from . import _cptree
 tree = _cptree.Tree()
-from cherrypy._cptree import Application
-from cherrypy import _cpwsgi as wsgi
+from ._cptree import Application
+from . import _cpwsgi as wsgi
 
-from cherrypy import process
+from . import process
 try:
     from cherrypy.process import win32
     engine = win32.Win32Bus()
@@ -142,7 +142,7 @@ class _HandleSignalsPlugin(object):
 engine.signals = _HandleSignalsPlugin(engine)
 
 
-from cherrypy import _cpserver
+from . import _cpserver
 server = _cpserver.Server()
 server.subscribe()
 
@@ -174,7 +174,7 @@ def quickstart(root=None, script_name="", config=None):
     engine.block()
 
 
-from cherrypy._cpcompat import threadlocal as _local
+from ._cpcompat import threadlocal as _local
 
 class _Serving(_local):
     """An interface for registering request and response objects.
@@ -258,7 +258,7 @@ class _ThreadLocalProxy(object):
         child = getattr(serving, self.__attrname__)
         return len(child)
 
-    def __nonzero__(self):
+    def __bool__(self):
         child = getattr(serving, self.__attrname__)
         return bool(child)
     # Python 3
@@ -294,7 +294,7 @@ except ImportError:
     pass
 
 
-from cherrypy import _cplogging
+from . import _cplogging
 
 class _GlobalLogManager(_cplogging.LogManager):
     """A site-wide LogManager; routes to app.log or global log as appropriate.
@@ -342,7 +342,7 @@ def expose(func=None, alias=None):
     def expose_(func):
         func.exposed = True
         if alias is not None:
-            if isinstance(alias, basestring):
+            if isinstance(alias, str):
                 parents[alias.replace(".", "_")] = func
             else:
                 for a in alias:
@@ -460,7 +460,7 @@ def popargs(*args, **kwargs):
 
     handler = None
     handler_call = False
-    for k,v in kwargs.items():
+    for k,v in list(kwargs.items()):
         if k == 'handler':
             handler = v
         else:
@@ -617,7 +617,7 @@ def url(path="", qs="", script_name=None, base=None, relative=None):
 
 
 # import _cpconfig last so it can reference other top-level objects
-from cherrypy import _cpconfig
+from . import _cpconfig
 # Use _global_conf_alias so quickstart can use 'config' as an arg
 # without shadowing cherrypy.config.
 config = _global_conf_alias = _cpconfig.Config()
@@ -627,11 +627,11 @@ config.defaults = {
     'tools.trailing_slash.on': True,
     'tools.encode.on': True
     }
-config.namespaces["log"] = lambda k, v: setattr(log, k, v)
-config.namespaces["checker"] = lambda k, v: setattr(checker, k, v)
+config.namespaces['log'] = lambda k, v: setattr(log, k, v)
+config.namespaces['checker'] = lambda k, v: setattr(checker, k, v)
 # Must reset to get our defaults applied.
 config.reset()
 
-from cherrypy import _cpchecker
+from . import _cpchecker
 checker = _cpchecker.Checker()
 engine.subscribe('start', checker)
