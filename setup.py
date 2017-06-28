@@ -48,7 +48,7 @@ if sys.argv[-1] == "zip":
 
 setup(
         name="pattern",
-        version="3.0",
+        version="3.0.0beta",
         description="Web mining module for Python.",
         license="BSD",
         author="Tom De Smedt",
